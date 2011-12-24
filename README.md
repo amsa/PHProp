@@ -31,20 +31,25 @@ If you are using multi-level configuration keys (e.g. application.config.db.user
 - Support for hierarchical data structure
 - Key-value binding
 
-##How to use
+#How to use
 Pass the ini configuration path to the *parse* method:
+
     $ini = PHProp::parse("path/to/ini");
 
 If your scope delimiter is not '.', give your delimiter as the second parameter:
+
     $ini = PHProp::parse("path/to/ini", "/");
 
 After getting the object, the username can be accessed easily:
+
     $ini->application->db->username 
 
 or
+
     $ini['application']['db']['username']
 
 To get the number of application's children:
+
     count($ini->application);
 
 See the examples for more...
