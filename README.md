@@ -22,6 +22,7 @@ If you are using multi-level configuration keys (e.g. application.config.db.user
 - Easy to use
 - Convenient Integration
 - Support for hierarchical data structure
+- Section inheritance
 - Array configs
 - Key-value binding
 
