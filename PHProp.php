@@ -19,7 +19,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GPL v3.0
  * @version 1.1
  */
-class PHPRop 
+class PHPRop
 {
     /**
      * @var IniObject
@@ -79,11 +79,29 @@ class PHPRop
         $aParsedIni = parse_ini_file($iniFile, true, INI_SCANNER_RAW);
         $tmpArray = array();
         foreach ($aParsedIni as $key=>$value) { 
+            if (strpos($key, ':') !== false) {
+                $sections = explode(':', $key);
+                if (count($sections) != 2) {
+                    throw new Exception('Malformatted section title!!!');
+                }
+                $currentSection = trim($sections[0]);
+                $parentSection = trim($sections[1]);
+                $value = array_merge(
+                    $aParsedIni[$parentSection], 
+                    $aParsedIni[$key]
+                );
+                $aParsedIni[$currentSection] = $value;
+                unset($aParsedIni[$key]);
+                $key = $currentSection;
+            }
             if (is_array($value)) {
                 foreach ($value as $vk=>$vv) {
                     $newKey = $key.".".$vk;
                     $tmpArray[$newKey] = $vv;
-                    if (is_string($vv) && preg_match_all('/\${([a-zA-Z0-9\.]+)}/', $vv, $match)) {
+                    if (
+                           is_string($vv) && 
+                           preg_match_all('/\${([a-zA-Z0-9\.]+)}/', $vv, $match)
+                        ) {
                         if (!isset($match[1])) continue;
                         $variableKey = $match[1];
                         foreach ($variableKey as &$var) {
@@ -95,22 +113,26 @@ class PHPRop
                     }
                 }
             }
+        }	
+        if (!empty($tmpArray)) {
+            $aParsedIni = $tmpArray;
         }
-		if (!empty($tmpArray)) {
-			$aParsedIni = $tmpArray;
-		}
-        foreach ($aParsedIni as $key=>$value) { 	        //extract parsed array keys
+        foreach ($aParsedIni as $key=>$value) { 	//extract parsed array keys
             if (array_key_exists($key, $this->_varDeps)) {
                 $deps = &$this->_varDeps;
-                $value = preg_replace_callback('/\${([a-zA-Z0-9\.]+)}/', 
-                        function($match) use ($key, $aParsedIni, &$deps){
-                            return $aParsedIni[array_shift($deps[$key])];
-                        }, $value);
+                $value = preg_replace_callback(
+                    '/\${([a-zA-Z0-9\.]+)}/', 
+                    function($match) use ($key, $aParsedIni, &$deps){
+                        return $aParsedIni[array_shift($deps[$key])];
+                    }, 
+                    $value
+                );
                 $aParsedIni[$key] = $value;
             }
-            $this->_tmpValue = $value;         			//set temporay value to current ini value
+            $this->_tmpValue = $value;//set temporay value to current ini value
             $aXKey = explode($this->_delimiter, $key); 	//get ini key segments
-            $this->_recursiveInit($this->_obj, $aXKey); //set object properties recursively based on parsed ini
+            //set object properties recursively based on parsed ini
+            $this->_recursiveInit($this->_obj, $aXKey);
         }
     }
 
@@ -129,7 +151,8 @@ class PHPRop
             array_shift($aChilds);  //drop first element of child array
             $this->_recursiveInit($objParent->$child, $aChilds);
         } else {
-            $objParent->$child = $this->_tmpValue;   //set the last child to temporary value
+            //set the last child to temporary value
+            $objParent->$child = $this->_tmpValue;
         }
     }
 
@@ -151,7 +174,7 @@ class iniObject implements Countable, ArrayAccess
 {
     public function count()
     {
-        return count( get_object_vars($this) );
+        return count get_object_vars($this);
     }
     
     public function offsetSet($offset, $value) 
