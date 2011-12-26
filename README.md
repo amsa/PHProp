@@ -1,14 +1,7 @@
 #Description
-One common configuration format that is used in PHP apps are ini files, but ini files are being used mostly for non-hierarchical configurations. For hierarchical data structure, XML is more used.
-This package facilitates parsing and reading hierarchical data from ini files.
+This package facilitates parsing and reading configurations from ini files.
 To create a hierarchical ini file, the only thing to do is to write keys seperated by a delimiter
 (by default '.') to specify parent and child. For example:
-
-    application.title="title"
-    application.db.username="username"
-    application.db.password="123"
-
-The example above can be written like this:
 
     [application]
     title="title"
@@ -29,6 +22,7 @@ If you are using multi-level configuration keys (e.g. application.config.db.user
 - Easy to use
 - Convenient Integration
 - Support for hierarchical data structure
+- Array configs
 - Key-value binding
 
 #How to use

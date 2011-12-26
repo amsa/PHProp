@@ -79,13 +79,11 @@ class PHPRop
         $aParsedIni = parse_ini_file($iniFile, true, INI_SCANNER_RAW);
         $tmpArray = array();
         foreach ($aParsedIni as $key=>$value) { 
-            if (!is_array($value)) {
-                break;
-            } else {
+            if (is_array($value)) {
                 foreach ($value as $vk=>$vv) {
                     $newKey = $key.".".$vk;
                     $tmpArray[$newKey] = $vv;
-                    if (preg_match_all('/\${([a-zA-Z0-9\.]+)}/', $vv, $match)) {
+                    if (is_string($vv) && preg_match_all('/\${([a-zA-Z0-9\.]+)}/', $vv, $match)) {
                         if (!isset($match[1])) continue;
                         $variableKey = $match[1];
                         foreach ($variableKey as &$var) {
