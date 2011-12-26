@@ -82,7 +82,7 @@ class PHPRop
             if (strpos($key, ':') !== false) {
                 $sections = explode(':', $key);
                 if (count($sections) != 2) {
-                    throw new Exception('Malformatted section title!!!');
+                    throw new Exception('Malformed section header!');
                 }
                 $currentSection = trim($sections[0]);
                 $parentSection = trim($sections[1]);
