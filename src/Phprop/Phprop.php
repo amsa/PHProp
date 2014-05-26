@@ -1,6 +1,6 @@
 <?php
 /**
- * PHProp
+ * Phprop
  *
  * PHP Version 5.3
  * @author Amin Saeedi <amin.w3dev@gmail.com>
@@ -8,18 +8,18 @@
  * @license http://www.gnu.org/copyleft/gpl.html GPL v3.0
  * @version 1.1
  */
-
+namespace Phprop;
 /**
- * PHPRop 
+ * Phprop 
  * Ini configuration parser with dependant variable support 
  * 
  * @package Configuration
  * @author Amin Saeedi <amin.w3dev@gmail.com>
- * @copyright Copyright (C) 2009-2011. All rights reserved.
+ * @copyright Copyright (C) 2009-2014. All rights reserved.
  * @license http://www.gnu.org/copyleft/gpl.html GPL v3.0
- * @version 1.1
+ * @version 1.2
  */
-class PHPRop
+class Phprop
 {
     /**
      * @var IniObject
@@ -170,7 +170,7 @@ class PHPRop
 /**
  * Customized stdClass
  */
-class iniObject implements Countable, ArrayAccess
+class iniObject implements \Countable, \ArrayAccess
 {
     public function count()
     {

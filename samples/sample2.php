@@ -1,5 +1,7 @@
 <?php
-require "../PHProp.php";
+require __DIR__ . '/../vendor/autoload.php';
 
-$ini = PHProp::parse("sample2.ini");
+use \Phprop\Phprop as Phprop;
+
+$ini = Phprop::parse("sample2.ini");
 var_dump($ini->user1->read);

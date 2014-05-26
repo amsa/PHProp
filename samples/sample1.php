@@ -1,7 +1,9 @@
 <?php
-require "../PHProp.php";
+require __DIR__ . '/../vendor/autoload.php';
 
-$ini = PHProp::parse("sample1.ini");
+use \Phprop\Phprop as Phprop;
+
+$ini = Phprop::parse("sample1.ini");
 var_dump($ini->application); 	//same as $ini['application']
 
 echo str_repeat("-", 150)."<br />";
