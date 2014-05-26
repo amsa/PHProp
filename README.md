@@ -47,4 +47,4 @@ To get the number of application's children:
 
     count($ini->application);
 
-See the examples for more...
+See the samples for more.

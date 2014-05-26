@@ -86,8 +86,8 @@ class PHPRop
                 }
                 $currentSection = trim($sections[0]);
                 $parentSection = trim($sections[1]);
-                $value = array_merge(
-                    $aParsedIni[$parentSection], 
+                $value = array_merge_recursive(
+                    $aParsedIni[$parentSection],
                     $aParsedIni[$key]
                 );
                 $aParsedIni[$currentSection] = $value;
